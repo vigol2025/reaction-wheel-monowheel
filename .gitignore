@@ -1,0 +1,23 @@
+# PlatformIO et éditeurs
+.pio/
+.vscode/
+build/
+
+# MATLAB / Simulink
+slprj/
+*.slxc
+*.asv
+*.autosave
+*.original
+
+# SolidWorks et Office (fichiers temporaires)
+~$*
+*.SLDBAK
+
+# Capella / Eclipse
+.metadata/
+
+# Système
+.DS_Store
+Thumbs.db
+desktop.ini
