@@ -1,0 +1,13 @@
+# Fins de ligne normalisées pour le texte, aucun traitement pour les binaires
+* text=auto
+*.pdf binary
+*.docx binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.SLDPRT binary
+*.SLDASM binary
+*.STL binary
+*.3mf binary
+*.slx binary
+*.mlx binary
