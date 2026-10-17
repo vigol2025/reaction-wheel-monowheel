@@ -30,6 +30,8 @@ La variante 1 400 KV à 19 A donne environ 0,13 N·m. Même avec une pointe opti
 
 La dernière ligne suffit à conclure : à 10° d'inclinaison, les quatre moteurs réunis ne compensent même pas la gravité, quel que soit le réglage du correcteur.
 
+La [simulation en boucle fermée](../simulation/README.md) d'octobre 2026 le confirme : avec les A2212, le robot tombe en 0,56 s, en LQR comme en placement de pôles, les deux axes restant saturés à 0,28 N·m.
+
 ## 4.4 Le volant n'est pas celui du calcul non plus
 
 J'ai mesuré le disque dessiné en CAO directement à partir de son maillage ([cad/](../cad/README.md)) : diamètre 120 mm, épaisseur 4,5 mm, volume 24,5 cm³. Le calcul supposait 0,25 kg sur un rayon de 80 mm. Avec ce volume, il faudrait un matériau de 10,2 g/cm³, plus dense que l'acier. En PLA (1,24 g/cm³), le disque pèse environ 30 g ; en aluminium, environ 66 g.
