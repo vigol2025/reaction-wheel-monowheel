@@ -15,7 +15,7 @@
 | --- | --- |
 | **My role** | Stabilisation subsystem: sizing, architecture, system model, CAD, firmware and test tooling |
 | **Context** | Student association project (CRYSTEO, JUNIA), October 2025 to today, alongside my engineering degree |
-| **Tools** | C++ on ESP32 (PlatformIO, Arduino, FreeRTOS) · MATLAB/Simulink (state feedback, LQR, observers) · SolidWorks and 3D printing · Capella (Arcadia MBSE) |
+| **Tools** | C++ on ESP32 (PlatformIO, Arduino, FreeRTOS) · MATLAB/Simulink · SolidWorks and 3D printing · Capella (Arcadia MBSE) |
 | **Status** | TRL 3: components validated separately; single-axis bench test ready ([TRL 4 plan](docs/05-plan-trl4.md)) |
 
 ## Highlights
@@ -24,7 +24,6 @@
 - **Redundant four-wheel architecture.** Each wheel acts on both roll and pitch; the controller's torque is split across the wheels by pseudo-inverse allocation. [Architecture](docs/03-architecture-4-roues.md)
 - **Modular embedded firmware.** My own BNO055 I2C driver, an ESC driver with arming and failsafe, a wheel-array layer and a two-axis PID with 45° allocation, at 200 Hz. [Firmware](firmware/README.md)
 - **Real-time design.** The single-axis test runs on FreeRTOS `vTaskDelayUntil()`, counts every missed deadline and streams JSON telemetry to PlotJuggler.
-- **State-feedback Simulink model.** A full closed-loop model built by script: LQR or pole-placement control of the body, pseudo-inverse allocation, four motor speed loops with extended state observers, a two-axis inverted-pendulum body and a noisy 100 Hz IMU. Six simulations confirm that the sized motors stabilise the robot, that the A2212 cannot, and that the single-axis bench works with today's hardware. [Simulation](simulation/README.md)
 - **Hardware-in-the-loop tooling.** A Simulink dashboard drives the motor over a serial link, with a keep-alive so the ESP32 failsafe never triggers by accident. [MATLAB](matlab/README.md)
 - **System model.** A Capella model of the whole robot across the five Arcadia levels: balance, propulsion, power and safety, telemetry, user interface. [Capella](capella/README.md)
 - **An engineering review that changed the plan.** Before any bench test, I checked the torque budget: the motor actually bought (A2212) delivers **6 to 12 times less torque** than required. I re-scoped the first test to validate the control chain only, instead of tuning a system that physically could not work. [Torque review](docs/04-revue-budget-de-couple.md)
@@ -68,7 +67,6 @@ The commit history follows these phases. Dates below are the original file dates
 | Jan 2026 | Reaction-wheel CAD and 3D-printed parts; BNO055 and ESC drivers; Simulink motor tooling | [cad/](cad/README.md), [archive](firmware/archive/README.md), [matlab/](matlab/README.md) |
 | Feb 2026 | Stabilisation assembly; modular firmware with PID and 45° allocation | [firmware/](firmware/README.md) |
 | Sep 2026 | Engineering review: torque budget, TRL 4 plan, real-time single-axis test | [review](docs/04-revue-budget-de-couple.md), [plan](docs/05-plan-trl4.md) |
-| Oct 2026 | State-feedback Simulink model (LQR and pole placement), six closed-loop simulations | [simulation/](simulation/README.md) |
 | Next | Single-axis bench test, then four wheels on a gimbal | [plan](docs/05-plan-trl4.md) |
 
 ## Repository map
@@ -78,7 +76,6 @@ The commit history follows these phases. Dates below are the original file dates
 ├── firmware/
 │   ├── stabilisation/    reference PlatformIO project (4-wheel version + single-axis test)
 │   └── archive/          earlier firmware steps, in chronological order
-├── simulation/           state-feedback Simulink model of the stabilisation, scripts and results
 ├── matlab/               Simulink tooling to drive and characterise the motors
 ├── cad/                  SolidWorks parts and assemblies, 3D-printing files, renders
 └── capella/              Capella system model of the whole robot
@@ -94,7 +91,7 @@ pio run -e test_single_axis -t upload -t monitor     # single-axis bench test
 
 ## Status and next steps
 
-- **Done:** sizing, architecture, system model, CAD, drivers and controller firmware, motor tooling, torque review, closed-loop Simulink model.
+- **Done:** sizing, architecture, system model, CAD, drivers and controller firmware, motor tooling, torque review.
 - **Next:** single-axis bench test with a success criterion written before the test; then four wheels on a two-axis gimbal; then free balancing.
 - **Open decision:** the final robot needs either motors in the class of the Eaglepower 8308 or a much smaller, lighter body.
 - **Known issues** are listed openly in the [firmware notes](firmware/README.md#points-connus-à-traiter-avant-les-essais-sur-banc) and the [sizing review](docs/02-dimensionnement.md#27-relecture-critique-octobre-2026).
@@ -116,7 +113,6 @@ This repository was assembled in October 2026 from the original project files.
 - modèle système Capella ;
 - CAO SolidWorks et pièces imprimées en 3D ;
 - firmware ESP32 (driver BNO055, ESC, PID deux axes, 200 Hz, FreeRTOS) ;
-- modèle Simulink complet avec commande par retour d'état (LQR et placement de pôles) et observateurs ESO ;
 - outils Simulink pour piloter et caractériser les moteurs.
 
 Une revue de conception a montré que le moteur acheté fournit 6 à 12 fois moins de couple que nécessaire. Le premier essai sur banc a donc été recentré sur la validation de la chaîne de commande.

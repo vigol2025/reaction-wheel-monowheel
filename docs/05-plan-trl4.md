@@ -15,8 +15,6 @@ Règle suivie pour chaque phase : **le critère de réussite est écrit avant l'
 
 **Objectif.** Prouver que la boucle BNO055 → PID → ESC corrige dans le bon sens, sur un montage léger compatible avec le couple de l'A2212. Ce n'est pas un test de tenue du robot final.
 
-**Faisabilité vérifiée en simulation** (octobre 2026, [simulation/](../simulation/README.md)) : avec un pendule de 0,25 kg et un seul A2212, le banc revient de 5° en 0,11 s, et une poussée ne demande que 3 A. La masse et l'inertie du pendule restent à mesurer.
-
 **Montage.** Un ensemble roue de réaction (A2212, disque, support) sur un pivot à un axe, le BNO055 solidaire de l'axe.
 
 **Code.** `firmware/stabilisation/src/test_single_axis.cpp`, environnement PlatformIO `test_single_axis` : boucle à 200 Hz cadencée par FreeRTOS, détection des dépassements de période, télémétrie JSON pour PlotJuggler ([firmware/](../firmware/README.md)).

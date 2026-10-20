@@ -15,7 +15,6 @@ La documentation détaillée est en français. Ordre de lecture conseillé :
 Documentation au plus près des fichiers :
 
 - [firmware/](../firmware/README.md) : architecture du code, conception temps réel, points connus ;
-- [simulation/](../simulation/README.md) : modèle Simulink de la stabilisation par retour d'état, et ses résultats ;
 - [matlab/](../matlab/README.md) : pilotage et caractérisation des moteurs depuis Simulink ;
 - [cad/](../cad/README.md) : pièces et assemblages SolidWorks, fichiers d'impression 3D ;
 - [capella/](../capella/README.md) : modèle système Arcadia du robot entier.
