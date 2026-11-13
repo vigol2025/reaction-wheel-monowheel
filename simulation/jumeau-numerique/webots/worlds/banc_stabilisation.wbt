@@ -1,0 +1,2249 @@
+#VRML_SIM R2025a utf8
+
+DEF MONDE WorldInfo {
+  info [
+    "Jumeau numérique piloté par Simulink (jumeau_banc_rw.slx, procédé : Jumeau Webots)."
+    "Entrée : 4 impulsions d'ESC ; sorties : BNO055 et 4 vitesses de roue. Tous les réglages viennent de MATLAB."
+  ]
+  title "Banc de stabilisation à 4 roues de réaction (version 3)"
+  basicTimeStep 1
+  FPS 30
+}
+Viewpoint {
+  orientation -0.1804910561695797 0.07883508486714734 0.9804121623260186 2.332393625594375
+  position 0.7130576593307115 -0.740589390912464 0.5133029146160266
+  near 0.01
+}
+Background {
+  skyColor [
+    0.93 0.95 0.98
+  ]
+  luminosity 1.3
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.5 0.4 -1
+  intensity 2.2
+}
+DirectionalLight {
+  direction 0.6 -0.5 -0.5
+  intensity 1.2
+}
+Solid {
+  translation 0 0 -0.01
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.78 0.71 0.58
+        roughness 0.9
+        metalness 0
+      }
+      geometry Box {
+        size 0.7 0.7 0.02
+      }
+    }
+  ]
+  name "table"
+}
+DEF BANC Robot {
+  translation 0 0 0.138
+  children [
+    Transform {
+      translation 0 0 -0.132
+      scale 0.001 0.001 0.001
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.576470588 0.470588235 0.376470588
+            roughness 0.6
+            metalness 0
+          }
+          geometry DEF M_RW_10_Socle Mesh {
+            url [
+              "../../geometrie/RW-10_Socle.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 0 -0.134
+      scale 0.001 0.001 0.001
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.6 0.6 0.6
+            roughness 0.6
+            metalness 0.6
+          }
+          geometry DEF M_RW_25_Tube_12x1 Mesh {
+            url [
+              "../../geometrie/RW-25_Tube-12x1.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0 0 0.024
+      scale 0.001 0.001 0.001
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.576470588 0.470588235 0.376470588
+            roughness 0.6
+            metalness 0
+          }
+          geometry DEF M_RW_07_Fourche Mesh {
+            url [
+              "../../geometrie/RW-07_Fourche.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation 0.018 0 0.024
+      rotation 0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943951
+      scale 0.001 0.001 0.001
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.62745098 0.62745098 0.62745098
+            roughness 0.6
+            metalness 0.6
+          }
+          geometry DEF M_RW_20_Roulement_625 Mesh {
+            url [
+              "../../geometrie/RW-20_Roulement-625.stl"
+            ]
+          }
+        }
+      ]
+    }
+    Transform {
+      translation -0.018 0 0.024
+      rotation -0.5773502691896257 -0.5773502691896257 0.5773502691896257 2.0943951
+      scale 0.001 0.001 0.001
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.62745098 0.62745098 0.62745098
+            roughness 0.6
+            metalness 0.6
+          }
+          geometry USE M_RW_20_Roulement_625
+        }
+      ]
+    }
+    DEF ROULIS HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0 0.024
+      }
+      device [
+        RotationalMotor {
+          name "moteur_roulis"
+          maxVelocity 1000
+          maxTorque 1000
+        }
+        PositionSensor {
+          name "angle_roulis"
+        }
+      ]
+      endPoint DEF CROISILLON Solid {
+        translation 0 0 0.024
+        children [
+          Transform {
+            scale 0.001 0.001 0.001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.909803922 0.639215686 0.239215686
+                  roughness 0.6
+                  metalness 0
+                }
+                geometry DEF M_RW_06_Croisillon Mesh {
+                  url [
+                    "../../geometrie/RW-06_Croisillon.stl"
+                  ]
+                }
+              }
+            ]
+          }
+          Transform {
+            rotation -1 0 0 1.57079633
+            scale 0.001 0.001 0.001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.2 0.2 0.2
+                  roughness 0.6
+                  metalness 0.6
+                }
+                geometry DEF M_RW_21_Tige_5x200 Mesh {
+                  url [
+                    "../../geometrie/RW-21_Tige-5x200.stl"
+                  ]
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0.014 0 0
+            rotation 0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943951
+            scale 0.001 0.001 0.001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.866666667 0.517647059 0.321568627
+                  roughness 0.6
+                  metalness 0
+                }
+                geometry DEF M_RW_23_Entretoise_roulis_8x4 Mesh {
+                  url [
+                    "../../geometrie/RW-23_Entretoise-roulis-8x4.stl"
+                  ]
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0.023 0 0
+            rotation -0.5773502691896257 -0.5773502691896257 0.5773502691896257 2.0943951
+            scale 0.001 0.001 0.001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.533333333 0.533333333 0.533333333
+                  roughness 0.6
+                  metalness 0.6
+                }
+                geometry DEF M_RW_22_Vis_epaulee_5x10_M4 Mesh {
+                  url [
+                    "../../geometrie/RW-22_Vis-epaulee-5x10-M4.stl"
+                  ]
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.0885 0
+            rotation 0 0.7071067811865476 0.7071067811865476 3.14159265
+            scale 0.001 0.001 0.001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.866666667 0.517647059 0.321568627
+                  roughness 0.6
+                  metalness 0
+                }
+                geometry DEF M_RW_05_Collier Mesh {
+                  url [
+                    "../../geometrie/RW-05_Collier.stl"
+                  ]
+                }
+              }
+            ]
+          }
+          Transform {
+            translation -0.014 0 0
+            rotation -0.5773502691896257 -0.5773502691896257 0.5773502691896257 2.0943951
+            scale 0.001 0.001 0.001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.866666667 0.517647059 0.321568627
+                  roughness 0.6
+                  metalness 0
+                }
+                geometry USE M_RW_23_Entretoise_roulis_8x4
+              }
+            ]
+          }
+          Transform {
+            translation -0.023 0 0
+            rotation 0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943951
+            scale 0.001 0.001 0.001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.533333333 0.533333333 0.533333333
+                  roughness 0.6
+                  metalness 0.6
+                }
+                geometry USE M_RW_22_Vis_epaulee_5x10_M4
+              }
+            ]
+          }
+          Transform {
+            translation 0 -0.0885 0
+            rotation 1 0 0 1.57079633
+            scale 0.001 0.001 0.001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.866666667 0.517647059 0.321568627
+                  roughness 0.6
+                  metalness 0
+                }
+                geometry USE M_RW_05_Collier
+              }
+            ]
+          }
+          Transform {
+            translation 0.008 0 0.0115
+            rotation 0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943951
+            scale 0.001 0.001 0.001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.31372549 0.31372549 0.31372549
+                  roughness 0.6
+                  metalness 0.6
+                }
+                geometry DEF M_RW_24_Goupille_3x16 Mesh {
+                  url [
+                    "../../geometrie/RW-24_Goupille-3x16.stl"
+                  ]
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.0825 0.0115
+            rotation -1 0 0 1.57079633
+            scale 0.001 0.001 0.001
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.31372549 0.31372549 0.31372549
+                  roughness 0.6
+                  metalness 0.6
+                }
+                geometry USE M_RW_24_Goupille_3x16
+              }
+            ]
+          }
+          DEF TANGAGE HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 1 0
+            }
+            device [
+              RotationalMotor {
+                name "moteur_tangage"
+                maxVelocity 1000
+                maxTorque 1000
+              }
+              PositionSensor {
+                name "angle_tangage"
+              }
+            ]
+            endPoint DEF DISPOSITIF Solid {
+              translation 0 0 -0.024
+              children [
+                DEF PALIERS Pose {
+                  translation 0 0 0.024
+                  children [
+                    Transform {
+                      translation 0 0.08 0
+                      rotation 0 0.7071067811865476 0.7071067811865476 3.14159265
+                      scale 0.001 0.001 0.001
+                      children [
+                        Shape {
+                          appearance PBRAppearance {
+                            baseColor 0.866666667 0.517647059 0.321568627
+                            roughness 0.6
+                            metalness 0
+                          }
+                          geometry DEF M_RW_04_Palier Mesh {
+                            url [
+                              "../../geometrie/RW-04_Palier.stl"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation 0 0.083 0
+                      rotation 0 0.7071067811865476 0.7071067811865476 3.14159265
+                      scale 0.001 0.001 0.001
+                      children [
+                        Shape {
+                          appearance PBRAppearance {
+                            baseColor 0.62745098 0.62745098 0.62745098
+                            roughness 0.6
+                            metalness 0.6
+                          }
+                          geometry USE M_RW_20_Roulement_625
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation 0 -0.08 0
+                      rotation 1 0 0 1.57079633
+                      scale 0.001 0.001 0.001
+                      children [
+                        Shape {
+                          appearance PBRAppearance {
+                            baseColor 0.866666667 0.517647059 0.321568627
+                            roughness 0.6
+                            metalness 0
+                          }
+                          geometry USE M_RW_04_Palier
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation 0 -0.083 0
+                      rotation 1 0 0 1.57079633
+                      scale 0.001 0.001 0.001
+                      children [
+                        Shape {
+                          appearance PBRAppearance {
+                            baseColor 0.62745098 0.62745098 0.62745098
+                            roughness 0.6
+                            metalness 0.6
+                          }
+                          geometry USE M_RW_20_Roulement_625
+                        }
+                      ]
+                    }
+                  ]
+                }
+                Transform {
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.180392157 0.37254902 0.815686275
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_50_Fils_moteur Mesh {
+                        url [
+                          "../../geometrie/RW-50_Fils-moteur.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.815686275 0.188235294 0.188235294
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_51_Fils_alim_ESC Mesh {
+                        url [
+                          "../../geometrie/RW-51_Fils-alim-ESC.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.62745098 0.125490196 0.125490196
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_52_Cable_alimentation Mesh {
+                        url [
+                          "../../geometrie/RW-52_Cable-alimentation.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.890196078 0.466666667 0.760784314
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_53_Cables_commande_ESC Mesh {
+                        url [
+                          "../../geometrie/RW-53_Cables-commande-ESC.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.0901960784 0.745098039 0.811764706
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_54_Cables_capteurs Mesh {
+                        url [
+                          "../../geometrie/RW-54_Cables-capteurs.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.17254902 0.62745098 0.17254902
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_55_Cable_BNO055 Mesh {
+                        url [
+                          "../../geometrie/RW-55_Cable-BNO055.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.580392157 0.403921569 0.741176471
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_56_Nappe_signaux Mesh {
+                        url [
+                          "../../geometrie/RW-56_Nappe-signaux.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.298039216 0.447058824 0.690196078
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_01_Moyeu Mesh {
+                        url [
+                          "../../geometrie/RW-01_Moyeu.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.415686275 0.560784314 0.784313725
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_08_Plateau Mesh {
+                        url [
+                          "../../geometrie/RW-08_Plateau.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.866666667 0.517647059 0.321568627
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_11_Bornier Mesh {
+                        url [
+                          "../../geometrie/RW-11_Bornier.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0 0 0.064
+                  rotation 0 0 -1 1.57079633
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.17254902 0.62745098 0.17254902
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_32_BNO055 Mesh {
+                        url [
+                          "../../geometrie/RW-32_BNO055.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.085 0 0.0734
+                  rotation 0 0 1 1.57079633
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.133333333 0.133333333 0.133333333
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry DEF M_RW_36_Barrette_1x15 Mesh {
+                        url [
+                          "../../geometrie/RW-36_Barrette-1x15.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.091 0 0.0734
+                  rotation 0 0 1 1.57079633
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.133333333 0.133333333 0.133333333
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry USE M_RW_36_Barrette_1x15
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.046 0 0.081
+                  rotation 0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943951
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.505882353 0.447058824 0.701960784
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_31_ESC_30A Mesh {
+                        url [
+                          "../../geometrie/RW-31_ESC-30A.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0 0.046 0.081
+                  rotation 0 0.7071067811865476 0.7071067811865476 3.14159265
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.505882353 0.447058824 0.701960784
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_31_ESC_30A
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.046 0 0.081
+                  rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.505882353 0.447058824 0.701960784
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_31_ESC_30A
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0 -0.046 0.081
+                  rotation 1 0 0 1.57079633
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.505882353 0.447058824 0.701960784
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_31_ESC_30A
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.033 -0.012 0.065
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_26_Entretoise_M3x35 Mesh {
+                        url [
+                          "../../geometrie/RW-26_Entretoise-M3x35.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.033 0.012 0.065
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_26_Entretoise_M3x35
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.033 -0.012 0.065
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_26_Entretoise_M3x35
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.033 0.012 0.065
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_26_Entretoise_M3x35
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0 0 0.1
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.168627451 0.168627451 0.168627451
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry DEF M_RW_37_Carte_XT60_1x4 Mesh {
+                        url [
+                          "../../geometrie/RW-37_Carte-XT60-1x4.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0013 0 0.1176
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.909803922 0.77254902 0.278431373
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_38_Fiche_XT60 Mesh {
+                        url [
+                          "../../geometrie/RW-38_Fiche-XT60.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0153 0 0.1176
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.909803922 0.77254902 0.278431373
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_38_Fiche_XT60
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0148 0 0.1176
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.909803922 0.77254902 0.278431373
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_38_Fiche_XT60
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0303 0 0.1176
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.909803922 0.77254902 0.278431373
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_38_Fiche_XT60
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0484 0 0.1061
+                  rotation 0.7071067811865476 0 0.7071067811865476 3.14159265
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.909803922 0.77254902 0.278431373
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_39_Fiche_XT60_alim Mesh {
+                        url [
+                          "../../geometrie/RW-39_Fiche-XT60-alim.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.08 0.025 -0.02
+                  rotation 0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943951
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.603921569 0.603921569 0.603921569
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry DEF M_RW_40_Tige_filetee_M6x60 Mesh {
+                        url [
+                          "../../geometrie/RW-40_Tige-filetee-M6x60.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0735 0.025 -0.02
+                  rotation 0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943951
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_41_Ecrou_M6 Mesh {
+                        url [
+                          "../../geometrie/RW-41_Ecrou-M6.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0825 0.025 -0.02
+                  rotation 0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943951
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_41_Ecrou_M6
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0999 0.025 -0.02
+                  rotation 0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943951
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_41_Ecrou_M6
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.1049 0.025 -0.02
+                  rotation 0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943951
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_41_Ecrou_M6
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.1099 0.025 -0.02
+                  rotation 0.5773502691896257 0.5773502691896257 0.5773502691896257 2.0943951
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_41_Ecrou_M6
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.025 0.08 -0.02
+                  rotation 0 0.7071067811865476 0.7071067811865476 3.14159265
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.603921569 0.603921569 0.603921569
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry USE M_RW_40_Tige_filetee_M6x60
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.025 0.0735 -0.02
+                  rotation 0 0.7071067811865476 0.7071067811865476 3.14159265
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_41_Ecrou_M6
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.025 0.0825 -0.02
+                  rotation 0 0.7071067811865476 0.7071067811865476 3.14159265
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_41_Ecrou_M6
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.025 0.0891 -0.02
+                  rotation 0 0.7071067811865476 0.7071067811865476 3.14159265
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_41_Ecrou_M6
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.08 -0.025 -0.02
+                  rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.603921569 0.603921569 0.603921569
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry USE M_RW_40_Tige_filetee_M6x60
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0735 -0.025 -0.02
+                  rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_41_Ecrou_M6
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0825 -0.025 -0.02
+                  rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_41_Ecrou_M6
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.025 -0.08 -0.02
+                  rotation 1 0 0 1.57079633
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.603921569 0.603921569 0.603921569
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry USE M_RW_40_Tige_filetee_M6x60
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.025 -0.0735 -0.02
+                  rotation 1 0 0 1.57079633
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_41_Ecrou_M6
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.025 -0.0825 -0.02
+                  rotation 1 0 0 1.57079633
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_41_Ecrou_M6
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.025 -0.1011 -0.02
+                  rotation 1 0 0 1.57079633
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_41_Ecrou_M6
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.025 -0.1061 -0.02
+                  rotation 1 0 0 1.57079633
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.788235294 0.635294118 0.152941176
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_41_Ecrou_M6
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0565685425 0.0565685425 0
+                  rotation 0.28108463780421483 0.6785983445273328 0.6785983445273328 2.59356425
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.866666667 0.517647059 0.321568627
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_02_Platine_moteur Mesh {
+                        url [
+                          "../../geometrie/RW-02_Platine-moteur.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0565685425 0.0565685425 0
+                  rotation 0.28108463780421483 0.6785983445273328 0.6785983445273328 2.59356425
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.733333333 0.733333333 0.733333333
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry DEF M_RW_03_Carter Mesh {
+                        url [
+                          "../../geometrie/RW-03_Carter.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0565685425 0.0565685425 0
+                  rotation 0.28108463780421483 0.6785983445273328 0.6785983445273328 2.59356425
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.909803922 0.639215686 0.239215686
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_12_Potence_capteur Mesh {
+                        url [
+                          "../../geometrie/RW-12_Potence-capteur.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0934795165 0.0934795165 0.04
+                  rotation -0.28108463780421483 -0.6785983445273328 0.6785983445273328 2.59356425
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.121568627 0.431372549 0.262745098
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry DEF M_RW_33_TCRT5000 Mesh {
+                        url [
+                          "../../geometrie/RW-33_TCRT5000.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0608111832 0.0608111832 0
+                  rotation 0.28108463780421483 0.6785983445273328 0.6785983445273328 2.59356425
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.333333333 0.333333333 0.333333333
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry DEF M_A2212_stator Mesh {
+                        url [
+                          "../../geometrie/A2212_stator.stl"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0565685425 0.0565685425 0
+                  rotation 0.28108463780421483 -0.6785983445273328 -0.6785983445273328 2.59356425
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.866666667 0.517647059 0.321568627
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_02_Platine_moteur
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0565685425 0.0565685425 0
+                  rotation 0.28108463780421483 -0.6785983445273328 -0.6785983445273328 2.59356425
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.733333333 0.733333333 0.733333333
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry USE M_RW_03_Carter
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0565685425 0.0565685425 0
+                  rotation 0.28108463780421483 -0.6785983445273328 -0.6785983445273328 2.59356425
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.909803922 0.639215686 0.239215686
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_12_Potence_capteur
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0934795165 0.0934795165 0.04
+                  rotation -0.28108463780421483 0.6785983445273328 -0.6785983445273328 2.59356425
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.121568627 0.431372549 0.262745098
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_33_TCRT5000
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0608111832 0.0608111832 0
+                  rotation 0.28108463780421483 -0.6785983445273328 -0.6785983445273328 2.59356425
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.333333333 0.333333333 0.333333333
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry USE M_A2212_stator
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0565685425 -0.0565685425 0
+                  rotation 0.8628562095508411 -0.3574067442281658 -0.3574067442281658 1.71777152
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.866666667 0.517647059 0.321568627
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_02_Platine_moteur
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0565685425 -0.0565685425 0
+                  rotation 0.8628562095508411 -0.3574067442281658 -0.3574067442281658 1.71777152
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.733333333 0.733333333 0.733333333
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry USE M_RW_03_Carter
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0565685425 -0.0565685425 0
+                  rotation 0.8628562095508411 -0.3574067442281658 -0.3574067442281658 1.71777152
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.909803922 0.639215686 0.239215686
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_12_Potence_capteur
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0934795165 -0.0934795165 0.04
+                  rotation -0.8628562095508411 0.3574067442281658 -0.3574067442281658 1.71777152
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.121568627 0.431372549 0.262745098
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_33_TCRT5000
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0608111832 -0.0608111832 0
+                  rotation 0.8628562095508411 -0.3574067442281658 -0.3574067442281658 1.71777152
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.333333333 0.333333333 0.333333333
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry USE M_A2212_stator
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0565685425 -0.0565685425 0
+                  rotation 0.8628562095508411 0.3574067442281658 0.3574067442281658 1.71777152
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.866666667 0.517647059 0.321568627
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_02_Platine_moteur
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0565685425 -0.0565685425 0
+                  rotation 0.8628562095508411 0.3574067442281658 0.3574067442281658 1.71777152
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.733333333 0.733333333 0.733333333
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry USE M_RW_03_Carter
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0565685425 -0.0565685425 0
+                  rotation 0.8628562095508411 0.3574067442281658 0.3574067442281658 1.71777152
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.909803922 0.639215686 0.239215686
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_12_Potence_capteur
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0934795165 -0.0934795165 0.04
+                  rotation -0.8628562095508411 -0.3574067442281658 0.3574067442281658 1.71777152
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.121568627 0.431372549 0.262745098
+                        roughness 0.6
+                        metalness 0
+                      }
+                      geometry USE M_RW_33_TCRT5000
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0608111832 -0.0608111832 0
+                  rotation 0.8628562095508411 0.3574067442281658 0.3574067442281658 1.71777152
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.333333333 0.333333333 0.333333333
+                        roughness 0.6
+                        metalness 0.6
+                      }
+                      geometry USE M_A2212_stator
+                    }
+                  ]
+                }
+                InertialUnit {
+                  translation -0.00185142526 0 0.0653309763
+                  name "bno055_orientation"
+                }
+                Gyro {
+                  translation -0.00185142526 0 0.0653309763
+                  name "bno055_gyroscope"
+                }
+                Accelerometer {
+                  translation -0.00185142526 0 0.0653309763
+                  name "bno055_accelerometre"
+                }
+                DEF ROUE1 HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0.707106781 0.707106781 0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "moteur_roue_1"
+                      maxVelocity 100000
+                      maxTorque 100
+                    }
+                    PositionSensor {
+                      name "angle_roue_1"
+                    }
+                  ]
+                  endPoint Solid {
+                    rotation -0.3574067442281658 0.8628562095508411 0.3574067442281658 1.71777152
+                    children [
+                      Transform {
+                        translation 0 1.19205632e-06 0.086
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.549019608 0.549019608 0.549019608
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry DEF M_A2212_rotor Mesh {
+                              url [
+                                "../../geometrie/A2212_rotor.stl"
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0.055 0 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry DEF M_ecrous Mesh {
+                              url [
+                                "../../geometrie/ecrous.stl"
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0.055 0 0.1112
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry DEF M_vis10 Mesh {
+                              url [
+                                "../../geometrie/vis10.stl"
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation -0.055 0 0.1112
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_vis10
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 -0.055 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 0.055 0.1012
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry DEF M_vis20 Mesh {
+                              url [
+                                "../../geometrie/vis20.stl"
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 -0.055 0.0998531661
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_vis20
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation -0.055 0 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 0 0.1167
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.768627451 0.305882353 0.321568627
+                              roughness 0.6
+                              metalness 0
+                            }
+                            geometry DEF M_disque Mesh {
+                              url [
+                                "../../geometrie/disque.stl"
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 0.055 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                    ]
+                    name "roue 1"
+                    physics Physics {
+                      density -1
+                      mass 0.0751364623
+                      centerOfMass [
+                        7.35856821e-09 8.10473656e-07 0.113280266
+                      ]
+                      inertiaMatrix [
+                        9.19980073e-05 7.39070801e-05 0.000156189939
+                        0 2.58412566e-12 -4.79858926e-07
+                      ]
+                    }
+                  }
+                }
+                DEF ROUE2 HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis -0.707106781 0.707106781 0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "moteur_roue_2"
+                      maxVelocity 100000
+                      maxTorque 100
+                    }
+                    PositionSensor {
+                      name "angle_roue_2"
+                    }
+                  ]
+                  endPoint Solid {
+                    rotation -0.6785983445273328 0.28108463780421483 0.6785983445273328 2.59356425
+                    children [
+                      Transform {
+                        translation 0 1.19205632e-06 0.086
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.549019608 0.549019608 0.549019608
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_A2212_rotor
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0.055 0 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0.055 0 0.1112
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_vis10
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation -0.055 0 0.1112
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_vis10
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 -0.055 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 0.055 0.1012
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_vis20
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 -0.055 0.0998531661
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_vis20
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation -0.055 0 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 0 0.1167
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.768627451 0.305882353 0.321568627
+                              roughness 0.6
+                              metalness 0
+                            }
+                            geometry USE M_disque
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 0.055 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                    ]
+                    name "roue 2"
+                    physics Physics {
+                      density -1
+                      mass 0.0751364623
+                      centerOfMass [
+                        7.35856821e-09 8.10473656e-07 0.113280266
+                      ]
+                      inertiaMatrix [
+                        9.19980073e-05 7.39070801e-05 0.000156189939
+                        0 2.58412566e-12 -4.79858926e-07
+                      ]
+                    }
+                  }
+                }
+                DEF ROUE3 HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis -0.707106781 -0.707106781 0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "moteur_roue_3"
+                      maxVelocity 100000
+                      maxTorque 100
+                    }
+                    PositionSensor {
+                      name "angle_roue_3"
+                    }
+                  ]
+                  endPoint Solid {
+                    rotation 0.6785983445273328 0.28108463780421483 -0.6785983445273328 2.59356425
+                    children [
+                      Transform {
+                        translation 0 1.19205632e-06 0.086
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.549019608 0.549019608 0.549019608
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_A2212_rotor
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0.055 0 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0.055 0 0.1112
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_vis10
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation -0.055 0 0.1112
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_vis10
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 -0.055 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 0.055 0.1012
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_vis20
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 -0.055 0.0998531661
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_vis20
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation -0.055 0 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 0 0.1167
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.768627451 0.305882353 0.321568627
+                              roughness 0.6
+                              metalness 0
+                            }
+                            geometry USE M_disque
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 0.055 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                    ]
+                    name "roue 3"
+                    physics Physics {
+                      density -1
+                      mass 0.0751364623
+                      centerOfMass [
+                        7.35856821e-09 8.10473656e-07 0.113280266
+                      ]
+                      inertiaMatrix [
+                        9.19980073e-05 7.39070801e-05 0.000156189939
+                        0 2.58412566e-12 -4.79858926e-07
+                      ]
+                    }
+                  }
+                }
+                DEF ROUE4 HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0.707106781 -0.707106781 0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "moteur_roue_4"
+                      maxVelocity 100000
+                      maxTorque 100
+                    }
+                    PositionSensor {
+                      name "angle_roue_4"
+                    }
+                  ]
+                  endPoint Solid {
+                    rotation 0.3574067442281658 0.8628562095508411 -0.3574067442281658 1.71777152
+                    children [
+                      Transform {
+                        translation 0 1.19205632e-06 0.086
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.549019608 0.549019608 0.549019608
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_A2212_rotor
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0.055 0 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0.055 0 0.1112
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_vis10
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation -0.055 0 0.1112
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_vis10
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 -0.055 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 0.055 0.1012
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_vis20
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 -0.055 0.0998531661
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_vis20
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation -0.055 0 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 0 0.1167
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.768627451 0.305882353 0.321568627
+                              roughness 0.6
+                              metalness 0
+                            }
+                            geometry USE M_disque
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 0.055 0.1107
+                        rotation 0 0 1 1.57079633
+                        scale 0.001 0.001 0.001
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.439215686 0.439215686 0.439215686
+                              roughness 0.6
+                              metalness 0.6
+                            }
+                            geometry USE M_ecrous
+                          }
+                        ]
+                      }
+                    ]
+                    name "roue 4"
+                    physics Physics {
+                      density -1
+                      mass 0.0751364623
+                      centerOfMass [
+                        7.35856821e-09 8.10473656e-07 0.113280266
+                      ]
+                      inertiaMatrix [
+                        9.19980073e-05 7.39070801e-05 0.000156189939
+                        0 2.58412566e-12 -4.79858926e-07
+                      ]
+                    }
+                  }
+                }
+              ]
+              name "dispositif"
+              physics DEF PHYSIQUE_DISPOSITIF Physics {
+                density -1
+                mass 0.960964347
+                centerOfMass [
+                  1.59389606e-07 -8.37214896e-05 0.0327890478
+                ]
+                inertiaMatrix [
+                  0.00563247985 0.00564269327 0.00691888292
+                  1.19282464e-05 6.27492244e-05 -4.78178243e-06
+                ]
+              }
+            }
+          }
+        ]
+        name "croisillon"
+        physics Physics {
+          density -1
+          mass 0.0754906267
+          centerOfMass [
+            0.000188169392 0.00106433313 0.000257355181
+          ]
+          inertiaMatrix [
+            0.00020719557 8.06809163e-06 0.000209729574
+            -3.40624957e-07 -1.59702055e-07 -9.03314746e-07
+          ]
+        }
+      }
+    }
+  ]
+  name "banc_stabilisation"
+  controller "pont_simulink"
+  supervisor TRUE
+}
