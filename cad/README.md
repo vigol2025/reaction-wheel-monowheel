@@ -1,5 +1,7 @@
 # CAO de la roue de réaction (SolidWorks, janvier-février 2026)
 
+> **Banc de stabilisation à deux axes (octobre-novembre 2026)** : voir [`solidworks/banc-stabilisation/`](solidworks/banc-stabilisation/README.md). Ses assemblages réutilisent le disque et la visserie ci-dessous.
+
 ![Pièces imprimées en 3D](img/pieces-imprimees.png)
 
 *Rendu généré à partir des fichiers STL du dossier [`impression-3d/`](impression-3d/).*
