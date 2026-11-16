@@ -129,15 +129,13 @@ Detailed instructions are in each folder's README and in the [user manual of the
 - **Open decision:** the final robot needs either motors in the class of the Eaglepower 8308 or a much smaller, lighter body.
 - **Known issues** are listed openly in the [firmware notes](firmware/README.md#points-connus-à-traiter-avant-les-essais-sur-banc), the [sizing review](docs/02-dimensionnement.md#27-relecture-critique-octobre-2026) and the limits section of the [digital twin manual](simulation/jumeau-numerique/README.md).
 
-## Credits and method
+## Credits
 
 The Crystof project was defined by the CRYSTEO association in 2024–2025 (initial brief and budget, written by other members). This repository covers my contribution to the stabilisation subsystem.
 
 The observer-based control laws follow the methods of the Advanced Robotics module taught by Meziane Larbi at JUNIA, applied here to this project's own motor and rig.
 
 Papers, datasheets and vendor CAD models are [referenced](docs/references.md), not redistributed. In particular, the A2212 motor model and its meshes (`A2212.SLDPRT`, `geometrie/A2212_*.stl`) come from a vendor model and are not included: the assemblies and the twin need them to open completely.
-
-Scripts, models and documentation were developed with the help of an AI coding assistant (Claude). I set the requirements and design choices, reviewed the results and ran the checks; the hardware and its measurements are mine.
 
 ---
 
