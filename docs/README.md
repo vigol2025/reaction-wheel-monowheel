@@ -17,6 +17,10 @@ Documentation au plus près des fichiers :
 - [firmware/](../firmware/README.md) : architecture du code, conception temps réel, points connus ;
 - [matlab/](../matlab/README.md) : pilotage et caractérisation des moteurs depuis Simulink ;
 - [cad/](../cad/README.md) : pièces et assemblages SolidWorks, fichiers d'impression 3D ;
-- [capella/](../capella/README.md) : modèle système Arcadia du robot entier.
+- [capella/](../capella/README.md) : modèle système Arcadia du robot entier ;
+- [control/banc-moteur/](../control/banc-moteur/README.md) : banc moteur, Simulink pilote le vrai moteur à travers l'ESP32 (octobre 2026) ;
+- [cad/solidworks/banc-stabilisation/](../cad/solidworks/banc-stabilisation/README.md) : banc de stabilisation à deux axes, CAO générée par du code, dossier technique (novembre 2026) ;
+- [simulation/jumeau-numerique/](../simulation/jumeau-numerique/README.md) : jumeaux numériques Simscape et Webots, chaîne de commande complète (novembre 2026) ;
+- [img/materiel/](img/materiel) : photos du matériel réel (moteur, disque, ESC, ESP32, alimentation).
 
 Documents d'origine, datés : [sources/](sources/).
