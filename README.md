@@ -15,7 +15,7 @@
 | --- | --- |
 | **My role** | Stabilisation subsystem: sizing, architecture, system model, CAD, control design, simulation, firmware and test tooling |
 | **Context** | Student association project (CRYSTEO, JUNIA), October 2025 to today, alongside my engineering degree |
-| **Tools** | MATLAB/Simulink, Simscape Multibody, Webots · C++ on ESP32 (PlatformIO, FreeRTOS) · SolidWorks and its API, Python (build123d, NumPy) · Capella (Arcadia MBSE) |
+| **Tools** | MATLAB/Simulink, Simscape Multibody, Webots · C++ on ESP32 (PlatformIO, FreeRTOS) · SolidWorks and its API, Python (build123d) · Capella (Arcadia MBSE) |
 | **Status** | Two-axis test rig designed and verified in CAD; full control stack validated on two digital twins; Simulink drives the real motor through the ESP32. Next: build the rig ([plan](#status-and-next-steps)) |
 
 ## Where to look first
